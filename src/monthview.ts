@@ -12,8 +12,8 @@ import {CalendarService} from './calendar.service';
                     <table *ngIf="viewIndex===currentViewIndex" class="table table-bordered table-fixed monthview-datetable">
                         <thead>
                         <tr>
-                            <th *ngFor="let day of view.dates.slice(0,7)">
-                                <small>{{day.date | date: formatDayHeader}}</small>
+                            <th *ngFor="let day of ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']">
+                                <small>{{day}}</small>
                             </th>
                         </tr>
                         </thead>
@@ -28,8 +28,8 @@ import {CalendarService} from './calendar.service';
                     <table *ngIf="viewIndex!==currentViewIndex" class="table table-bordered table-fixed monthview-datetable">
                         <thead>
                         <tr class="text-center">
-                            <th *ngFor="let day of view.dates.slice(0,7)">
-                                <small>{{day.date | date: formatDayHeader}}</small>
+                            <th *ngFor="let day of ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']">
+                                <small>{{day}}</small>
                             </th>
                         </tr>
                         </thead>
@@ -471,7 +471,28 @@ export class MonthViewComponent implements OnInit, OnChanges {
             month = (currentViewStartDate.getMonth() + (date !== 1 ? 1 : 0)) % 12,
             year = currentViewStartDate.getFullYear() + (date !== 1 && month === 0 ? 1 : 0),
             headerDate = new Date(year, month, 1);
-        return new DatePipe().transform(headerDate, this.formatMonthTitle);
+        var ret = new DatePipe().transform(headerDate, this.formatMonthTitle);
+
+    		var mes = ret.split(' ')[0];
+    		var ano = ret.split(' ')[1];
+    		switch(mes){
+    			case 'January': mes = 'Janeiro'; break;
+    			case 'February': mes = 'Fevereiro'; break;
+    			case 'March': mes = 'Março'; break;
+    			case 'April': mes = 'Abril'; break;
+    			case 'May': mes = 'Maio'; break;
+    			case 'June': mes = 'Junho'; break;
+    			case 'July': mes = 'Julho'; break;
+    			case 'August': mes = 'Agosto'; break;
+    			case 'September': mes = 'Setembro'; break;
+    			case 'October': mes = 'Outubro'; break;
+    			case 'November': mes = 'Novembro'; break;
+    			case 'December': mes = 'Dezembro'; break;
+    		}
+    		//console.log('->' + mes);
+
+        return mes + ' ' + ano;
+        //return new DatePipe().transform(headerDate, this.formatMonthTitle);
     }
 
     private compareEvent(event1, event2) {
